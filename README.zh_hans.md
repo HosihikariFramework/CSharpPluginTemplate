@@ -37,3 +37,7 @@
 `OnUnload` 释放插件持有的东西。钩子抛出异常属于故障，宿主会卸载插件。
 
 完整契约见[作者文档](https://hosihikariframework.github.io/zh/authoring-csharp/)。
+
+## 许可
+
+MIT-0，见 [LICENSE.md](LICENSE.md)。

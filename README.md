@@ -42,3 +42,7 @@ is a fault and the host unloads the plugin.
 
 See the [authoring guide](https://hosihikariframework.github.io/authoring-csharp/) for the full
 contract.
+
+## Licence
+
+MIT-0, see [LICENSE.md](LICENSE.md).
