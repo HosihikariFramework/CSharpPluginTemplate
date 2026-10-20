@@ -1,0 +1,19 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: 检查清单与入口
+        run: |
+          set -euo pipefail
+          test -f manifest.json
+          test -f main.cs
+          test -f MyCSharpPlugin.conf
+          node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf8')); if(m.extraInfo.provider!=='csharp') throw new Error('provider'); if(m.entry!=='main.cs') throw new Error('entry');"
