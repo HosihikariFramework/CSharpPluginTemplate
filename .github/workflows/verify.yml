@@ -10,10 +10,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
       - name: 检查清单与入口
         run: |
           set -euo pipefail
           test -f manifest.json
           test -f main.cs
           test -f MyCSharpPlugin.conf
-          node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf8')); if(m.extraInfo.provider!=='csharp') throw new Error('provider'); if(m.entry!=='main.cs') throw new Error('entry');"
+          node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf8')); if(m.extraInfo.provider!=='csharp') throw new Error('provider'); if(m.entry!=='main.cs') throw new Error('entry'); if(!m.dependencies?.some(d=>d.name==='hosihikari-csharp')) throw new Error('dependencies');"
+
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+      - name: 用契约编译源码
+        run: |
+          set -euo pipefail
+          check="$RUNNER_TEMP/compile-check"
+          mkdir -p "$check"
+          cat > "$check/Check.csproj" <<XML
+          <Project Sdk="Microsoft.NET.Sdk">
+            <PropertyGroup>
+              <TargetFramework>net10.0</TargetFramework>
+              <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+            </PropertyGroup>
+            <ItemGroup>
+              <Compile Include="$GITHUB_WORKSPACE/main.cs" Link="main.cs" />
+              <PackageReference Include="Hosihikari.Abstractions" Version="0.7.0" />
+              <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
+            </ItemGroup>
+          </Project>
+          XML
+          dotnet build "$check/Check.csproj" -c Release --nologo
