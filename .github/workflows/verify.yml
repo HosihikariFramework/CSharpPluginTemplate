@@ -20,7 +20,7 @@ jobs:
           test -f main.cs
           test -f parts/helper.cs
           test -f MyCSharpPlugin.conf
-          node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf8')); if(m.extraInfo.provider!=='csharp') throw new Error('provider'); if(m.entry!=='main.cs') throw new Error('entry'); if(!m.dependencies?.some(d=>d.name==='hosihikari-csharp')) throw new Error('dependencies');"
+          node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf8')); if(m.extraInfo.loader!=='csharp') throw new Error('loader'); if(m.entry!=='main.cs') throw new Error('entry'); if(!m.dependencies?.some(d=>d.name==='hosihikari-csharp')) throw new Error('dependencies');"
 
   compile:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
           set -euo pipefail
           check="$RUNNER_TEMP/compile-check"
           mkdir -p "$check"
-          # 指令只在 Provider 与打包器里有意义；普通 csproj 里先去掉，再把 include 文件编进去。
+          # 指令只在加载器与打包器里有意义；普通 csproj 里先去掉，再把 include 文件编进去。
           sed -E 's/^[[:space:]]*#:.*$//' main.cs > "$check/main.cs"
           cat > "$check/Check.csproj" <<XML
           <Project Sdk="Microsoft.NET.Sdk">
@@ -45,7 +45,7 @@ jobs:
             <ItemGroup>
               <Compile Include="$check/main.cs" Link="main.cs" />
               <Compile Include="$GITHUB_WORKSPACE/parts/helper.cs" Link="parts/helper.cs" />
-              <PackageReference Include="Hosihikari.Abstractions" Version="0.7.1" />
+              <PackageReference Include="Hosihikari.Plugin.Abstractions" Version="0.7.1" />
               <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
               <PackageReference Include="System.IO.Hashing" Version="10.0.13" />
             </ItemGroup>
@@ -71,7 +71,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           repository: HosihikariFramework/Abstractions
-          path: Hosihikari.Abstractions
+          path: Hosihikari.Plugin.Abstractions
 
       - name: McMaster fork
         uses: actions/checkout@v7

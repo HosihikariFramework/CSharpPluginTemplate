@@ -1,6 +1,6 @@
 # CSharpPluginTemplate
 
-星光框架的最小 C# 源码插件模板。C# Provider 在装载时用 Roslyn 编译 `main.cs`，放进 collectible ALC 运行；作者不需要自己构建。
+星光框架的最小 C# 源码插件模板。C# loader 在装载时用 Roslyn 编译 `main.cs`，放进 collectible ALC 运行；作者不需要自己构建。
 
 ## 使用
 
@@ -18,7 +18,7 @@
 
    打包器需要同级的 `Hosihikari.PluginManager` 检出，或由 `HOSIHIKARI_PLUGINMANAGER` 指向一个。
 3. 把 `dist/MyCSharpPlugin/` 复制到 `<服务端>/plugins/MyCSharpPlugin/`。
-4. 按服务端安装 Shim 变体与 C# Provider：
+4. 按服务端安装 Shim 变体与 C# loader：
 
    ```powershell
    lip install github.com/HosihikariFramework/Shim#levilamina   # 或 #endstone
@@ -27,11 +27,11 @@
 
 5. 重启服务端，日志里会看到插件加载与启用。
 
-自持态 Linux 用无后缀 Shim 包，并通过 `hosihikari-server` 启动；Provider 与插件仍然放在 `plugins/` 下。
+自持态 Linux 用无后缀 Shim 包，并通过 `hosihikari-server` 启动；加载器与插件仍然放在 `plugins/` 下。
 
 ## 文件
 
-- `manifest.json` —— `provider: csharp`，依赖 `hosihikari` 与 `hosihikari-csharp`。
+- `manifest.json` —— `loader: csharp`，依赖 `hosihikari` 与 `hosihikari-csharp`。
 - `main.cs` —— 实现 `IPlugin` 的公开无参类型，同时演示两个 file-based 指令：
   `#:package System.IO.Hashing@10.0.13` 与 `#:include parts/helper.cs`。
 - `parts/helper.cs` —— 通过 `#:include` 与 `main.cs` 一起编译。

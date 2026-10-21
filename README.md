@@ -1,6 +1,6 @@
 # CSharpPluginTemplate
 
-A minimal source-compiled C# plugin for the Hosihikari framework. The C# provider compiles
+A minimal source-compiled C# plugin for the Hosihikari framework. The C# loader compiles
 `main.cs` at load with Roslyn and runs it in a collectible ALC; there is no build step for the
 author.
 
@@ -22,7 +22,7 @@ author.
    The packer needs a sibling `Hosihikari.PluginManager` checkout, or
    `HOSIHIKARI_PLUGINMANAGER` pointing at one.
 3. Copy `dist/MyCSharpPlugin/` to `<server>/plugins/MyCSharpPlugin/`.
-4. Install the shim variant for the server and the C# provider:
+4. Install the shim variant for the server and the C# loader:
 
    ```powershell
    lip install github.com/HosihikariFramework/Shim#levilamina   # or #endstone
@@ -32,11 +32,11 @@ author.
 5. Restart the server. The log shows the plugin loading and enabling.
 
 For the self-hosted Linux carrier, install the suffix-less shim package and start the server through
-`hosihikari-server`; providers and plugins still live under `plugins/`.
+`hosihikari-server`; loaders and plugins still live under `plugins/`.
 
 ## Files
 
-- `manifest.json` — `provider: csharp`, depends on `hosihikari` and `hosihikari-csharp`.
+- `manifest.json` — `loader: csharp`, depends on `hosihikari` and `hosihikari-csharp`.
 - `main.cs` — a public parameterless type implementing `IPlugin`. It also demonstrates two
   file-based directives: `#:package System.IO.Hashing@10.0.13` and `#:include parts/helper.cs`.
 - `parts/helper.cs` — compiled with `main.cs` through `#:include`.

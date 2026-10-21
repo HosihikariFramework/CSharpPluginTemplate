@@ -7,7 +7,7 @@ using System.Text;
 using Hosihikari;
 using Microsoft.Extensions.Logging;
 
-/// <summary>The C# provider finds this public parameterless type and constructs it.</summary>
+/// <summary>The C# loader finds this public parameterless type and constructs it.</summary>
 public sealed class MyCSharpPlugin : IPlugin
 {
     public void OnLoad(IPluginContext context)
