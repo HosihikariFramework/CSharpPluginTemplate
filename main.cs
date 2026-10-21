@@ -1,6 +1,7 @@
 #:package System.IO.Hashing@10.0.13
 #:include parts/helper.cs
 
+using System;
 using System.IO.Hashing;
 using System.Text;
 using Hosihikari;
