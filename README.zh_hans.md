@@ -21,8 +21,8 @@
 4. 按服务端安装 Shim 变体与 C# loader：
 
    ```powershell
-   lip install github.com/HosihikariFramework/Shim#levilamina   # 或 #endstone
-   lip install github.com/HosihikariFramework/CSharpProvider
+   lip install github.com/HosihikariFramework/HostingShim#levilamina   # 或 #endstone
+   lip install github.com/HosihikariFramework/CSharpLoader
    ```
 
 5. 重启服务端，日志里会看到插件加载与启用。

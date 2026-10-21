@@ -25,8 +25,8 @@ author.
 4. Install the shim variant for the server and the C# loader:
 
    ```powershell
-   lip install github.com/HosihikariFramework/Shim#levilamina   # or #endstone
-   lip install github.com/HosihikariFramework/CSharpProvider
+   lip install github.com/HosihikariFramework/HostingShim#levilamina   # or #endstone
+   lip install github.com/HosihikariFramework/CSharpLoader
    ```
 
 5. Restart the server. The log shows the plugin loading and enabling.

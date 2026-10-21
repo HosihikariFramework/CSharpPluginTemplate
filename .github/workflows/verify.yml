@@ -45,7 +45,7 @@ jobs:
             <ItemGroup>
               <Compile Include="$check/main.cs" Link="main.cs" />
               <Compile Include="$GITHUB_WORKSPACE/parts/helper.cs" Link="parts/helper.cs" />
-              <PackageReference Include="Hosihikari.Plugin.Abstractions" Version="0.7.1" />
+              <PackageReference Include="Hosihikari.Plugin.Abstractions" Version="1.0.0" />
               <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
               <PackageReference Include="System.IO.Hashing" Version="10.0.13" />
             </ItemGroup>
@@ -64,13 +64,13 @@ jobs:
       - name: 核心
         uses: actions/checkout@v7
         with:
-          repository: HosihikariFramework/PluginManagement
+          repository: HosihikariFramework/PluginManager
           path: Hosihikari.PluginManager
 
       - name: 契约
         uses: actions/checkout@v7
         with:
-          repository: HosihikariFramework/Abstractions
+          repository: HosihikariFramework/PluginAbstractions
           path: Hosihikari.Plugin.Abstractions
 
       - name: McMaster fork
