@@ -18,6 +18,7 @@ jobs:
           set -euo pipefail
           test -f manifest.json
           test -f main.cs
+          test -f parts/helper.cs
           test -f MyCSharpPlugin.conf
           node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf8')); if(m.extraInfo.provider!=='csharp') throw new Error('provider'); if(m.entry!=='main.cs') throw new Error('entry'); if(!m.dependencies?.some(d=>d.name==='hosihikari-csharp')) throw new Error('dependencies');"
 
@@ -33,6 +34,8 @@ jobs:
           set -euo pipefail
           check="$RUNNER_TEMP/compile-check"
           mkdir -p "$check"
+          # 指令只在 Provider 与打包器里有意义；普通 csproj 里先去掉，再把 include 文件编进去。
+          sed -E 's/^[[:space:]]*#:.*$//' main.cs > "$check/main.cs"
           cat > "$check/Check.csproj" <<XML
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup>
@@ -40,10 +43,53 @@ jobs:
               <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
             </PropertyGroup>
             <ItemGroup>
-              <Compile Include="$GITHUB_WORKSPACE/main.cs" Link="main.cs" />
+              <Compile Include="$check/main.cs" Link="main.cs" />
+              <Compile Include="$GITHUB_WORKSPACE/parts/helper.cs" Link="parts/helper.cs" />
               <PackageReference Include="Hosihikari.Abstractions" Version="0.7.1" />
               <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
+              <PackageReference Include="System.IO.Hashing" Version="10.0.13" />
             </ItemGroup>
           </Project>
           XML
           dotnet build "$check/Check.csproj" -c Release --nologo
+
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 模板
+        uses: actions/checkout@v7
+        with:
+          path: template
+
+      - name: 核心
+        uses: actions/checkout@v7
+        with:
+          repository: HosihikariFramework/PluginManagement
+          path: Hosihikari.PluginManager
+
+      - name: 契约
+        uses: actions/checkout@v7
+        with:
+          repository: HosihikariFramework/Abstractions
+          path: Hosihikari.Abstractions
+
+      - name: McMaster fork
+        uses: actions/checkout@v7
+        with:
+          repository: HosihikariFramework/Hosihikari.McMaster.NETCore.Plugins
+          path: Hosihikari.McMaster.NETCore.Plugins
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: 打包
+        run: bash template/pack.sh
+
+      - name: 检查包
+        run: |
+          set -euo pipefail
+          test -f template/dist/MyCSharpPlugin/main.cs
+          test -f template/dist/MyCSharpPlugin/parts/helper.cs
+          test -f template/dist/MyCSharpPlugin/System.IO.Hashing.dll
+          test -f template/dist/MyCSharpPlugin/manifest.json
