@@ -1,14 +1,14 @@
 # Pack the source plugin with the framework's packer. The packer restores
 # #:package dependencies and copies #:include files.
 #
-# Requires a sibling Hosihikari.PluginManager checkout, or HOSIHIKARI_PLUGINMANAGER.
+# Requires a sibling PluginManager checkout, or HOSIHIKARI_PLUGINMANAGER.
 $ErrorActionPreference = 'Stop'
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $core = if ($env:HOSIHIKARI_PLUGINMANAGER) {
     $env:HOSIHIKARI_PLUGINMANAGER
 } else {
-    Join-Path (Split-Path -Parent $here) 'Hosihikari.PluginManager'
+    Join-Path (Split-Path -Parent $here) 'PluginManager'
 }
 $tool = Join-Path $core 'tools\Pack\Hosihikari.Plugin.Pack.csproj'
 if (-not (Test-Path $tool)) {

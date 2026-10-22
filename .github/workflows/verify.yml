@@ -65,7 +65,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           repository: HosihikariFramework/PluginManager
-          path: Hosihikari.PluginManager
+          path: PluginManager
 
       - name: 契约
         uses: actions/checkout@v7
@@ -77,7 +77,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           repository: HosihikariFramework/Hosihikari.McMaster.NETCore.Plugins
-          path: Hosihikari.McMaster.NETCore.Plugins
+          path: McMaster.NETCore.Plugins
 
       - uses: actions/setup-dotnet@v6
         with:

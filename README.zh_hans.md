@@ -16,7 +16,7 @@
    bash ./pack.sh
    ```
 
-   打包器需要同级的 `Hosihikari.PluginManager` 检出，或由 `HOSIHIKARI_PLUGINMANAGER` 指向一个。
+   打包器需要同级的 `PluginManager` 检出，或由 `HOSIHIKARI_PLUGINMANAGER` 指向一个。
 3. 把 `dist/MyCSharpPlugin/` 复制到 `<服务端>/plugins/MyCSharpPlugin/`。
 4. 按服务端安装 Shim 变体与 C# loader：
 

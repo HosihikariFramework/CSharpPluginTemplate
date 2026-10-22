@@ -19,7 +19,7 @@ author.
    bash ./pack.sh
    ```
 
-   The packer needs a sibling `Hosihikari.PluginManager` checkout, or
+   The packer needs a sibling `PluginManager` checkout, or
    `HOSIHIKARI_PLUGINMANAGER` pointing at one.
 3. Copy `dist/MyCSharpPlugin/` to `<server>/plugins/MyCSharpPlugin/`.
 4. Install the shim variant for the server and the C# loader:

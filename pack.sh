@@ -2,11 +2,11 @@
 # Pack the source plugin with the framework's packer. The packer restores
 # #:package dependencies and copies #:include files.
 #
-# Requires a sibling Hosihikari.PluginManager checkout, or HOSIHIKARI_PLUGINMANAGER.
+# Requires a sibling PluginManager checkout, or HOSIHIKARI_PLUGINMANAGER.
 set -euo pipefail
 
 here=$(cd "$(dirname "$0")" && pwd)
-core=${HOSIHIKARI_PLUGINMANAGER:-"$(cd "$here/.." && pwd)/Hosihikari.PluginManager"}
+core=${HOSIHIKARI_PLUGINMANAGER:-"$(cd "$here/.." && pwd)/PluginManager"}
 tool="$core/tools/Pack/Hosihikari.Plugin.Pack.csproj"
 if [ ! -f "$tool" ]; then
     echo "找不到核心打包器：$tool。请并列检出 Hosihikari.PluginManager，或设置 HOSIHIKARI_PLUGINMANAGER。" >&2
