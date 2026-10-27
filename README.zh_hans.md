@@ -53,7 +53,7 @@
 `OnLoad` 在依赖就绪后执行；`OnEnable` 打开事件/定时器闸门，拒绝则保持已加载未启用；
 `OnUnload` 释放插件持有的东西。钩子抛出异常属于故障，宿主会卸载插件。
 
-完整契约见[作者文档](https://hosihikariframework.github.io/zh/authoring-csharp/)。
+完整契约见[作者文档](https://hf.srcz.one/zh/develop/authoring-csharp/)。
 
 ## 许可
 
