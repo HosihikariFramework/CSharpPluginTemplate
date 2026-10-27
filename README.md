@@ -60,7 +60,7 @@ and may use globs such as `../shared/*.cs`.
 the plugin loaded and disabled. `OnUnload` releases what the plugin owns. An exception from a hook
 is a fault and the host unloads the plugin.
 
-See the [authoring guide](https://hosihikariframework.github.io/authoring-csharp/) for the full
+See the [authoring guide](https://hf.srcz.one/develop/authoring-csharp/) for the full
 contract.
 
 ## Licence

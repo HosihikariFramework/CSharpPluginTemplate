@@ -35,5 +35,5 @@ The server never restores packages at load; `#:package` is resolved at pack time
 
 ## Context
 
-- [C# plugin guide](https://hf.srcz.one/authoring-csharp/).
+- [C# plugin guide](https://hf.srcz.one/develop/authoring-csharp/).
 - [C# loader](https://github.com/HosihikariFramework/CSharpLoader).
