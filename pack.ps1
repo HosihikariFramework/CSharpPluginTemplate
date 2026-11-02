@@ -12,7 +12,7 @@ $core = if ($env:HOSIHIKARI_PLUGINMANAGER) {
 }
 $tool = Join-Path $core 'tools\Pack\Hosihikari.Plugin.Pack.csproj'
 if (-not (Test-Path $tool)) {
-    throw "找不到核心打包器：$tool。请并列检出 Hosihikari.PluginManager，或设置 HOSIHIKARI_PLUGINMANAGER。"
+    throw "Core packer not found: $tool. Run with a sibling Hosihikari.PluginManager checkout, or set HOSIHIKARI_PLUGINMANAGER."
 }
 
 # 打包器拒绝输出目录与源目录相交；先复制到临时目录，排除仓库元数据与旧产物。

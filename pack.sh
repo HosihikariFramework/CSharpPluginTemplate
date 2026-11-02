@@ -9,7 +9,7 @@ here=$(cd "$(dirname "$0")" && pwd)
 core=${HOSIHIKARI_PLUGINMANAGER:-"$(cd "$here/.." && pwd)/PluginManager"}
 tool="$core/tools/Pack/Hosihikari.Plugin.Pack.csproj"
 if [ ! -f "$tool" ]; then
-    echo "找不到核心打包器：$tool。请并列检出 Hosihikari.PluginManager，或设置 HOSIHIKARI_PLUGINMANAGER。" >&2
+    echo "Core packer not found: $tool. Run with a sibling Hosihikari.PluginManager checkout, or set HOSIHIKARI_PLUGINMANAGER." >&2
     exit 1
 fi
 
