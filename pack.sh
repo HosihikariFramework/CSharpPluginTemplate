@@ -9,7 +9,13 @@ here=$(cd "$(dirname "$0")" && pwd)
 core=${HOSIHIKARI_PLUGINMANAGER:-"$(cd "$here/.." && pwd)/PluginManager"}
 tool="$core/tools/Pack/Hosihikari.Plugin.Pack.csproj"
 if [ ! -f "$tool" ]; then
-packer_language=${LANG:-}
+packer_language=${LC_ALL:-}
+if [ -z "$packer_language" ]; then
+    packer_language=${LC_MESSAGES:-}
+fi
+if [ -z "$packer_language" ]; then
+    packer_language=${LANG:-}
+fi
 packer_language=${packer_language%%_*}
 packer_language=${packer_language%%.*}
 case "$packer_language" in
