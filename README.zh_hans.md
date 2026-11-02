@@ -18,16 +18,19 @@
 
    打包器需要同级的 `PluginManager` 检出，或由 `HOSIHIKARI_PLUGINMANAGER` 指向一个。
 3. 把 `dist/MyCSharpPlugin/` 复制到 `<服务端>/plugins/MyCSharpPlugin/`。
-4. 按服务端安装 Shim 变体与 C# loader：
+4. 用 Seiko 安装载体 bundle 与 C# loader：
 
    ```powershell
-   lip install github.com/HosihikariFramework/HostingShim#levilamina   # 或 #endstone
-   lip install github.com/HosihikariFramework/CSharpLoader
+   sk init                                  # 每个服务端根目录执行一次
+   sk add hosihikari-hosting-levilamina     # LeviLamina
+   # 或：sk add hosihikari-hosting-endstone
+   # 或：sk add hosihikari-hosting-selfhosted
+   sk add hosihikari-csharp
    ```
 
 5. 重启服务端，日志里会看到插件加载与启用。
 
-自持态 Linux 用无后缀 Shim 包，并通过 `hosihikari-server` 启动；加载器与插件仍然放在 `plugins/` 下。
+自持态载体用 `sk add hosihikari-hosting-selfhosted`，按平台选 Windows 或 Linux；通过 `hosihikari-server`（Windows 上是 `hosihikari-server.exe`）启动。加载器与插件仍然放在 `plugins/` 下。
 
 ## 文件
 
@@ -53,7 +56,7 @@
 `OnLoad` 在依赖就绪后执行；`OnEnable` 打开事件/定时器闸门，拒绝则保持已加载未启用；
 `OnUnload` 释放插件持有的东西。钩子抛出异常属于故障，宿主会卸载插件。
 
-完整契约见[作者文档](https://hf.srcz.one/zh/develop/authoring-csharp/)。
+完整契约见[作者文档](https://hoshi.srcz.one/zh/framework/develop/authoring-csharp/)。
 
 ## 许可
 

@@ -22,17 +22,19 @@ author.
    The packer needs a sibling `PluginManager` checkout, or
    `HOSIHIKARI_PLUGINMANAGER` pointing at one.
 3. Copy `dist/MyCSharpPlugin/` to `<server>/plugins/MyCSharpPlugin/`.
-4. Install the shim variant for the server and the C# loader:
+4. Install the carrier bundle and the C# loader with Seiko:
 
    ```powershell
-   lip install github.com/HosihikariFramework/HostingShim#levilamina   # or #endstone
-   lip install github.com/HosihikariFramework/CSharpLoader
+   sk init                                  # once per server root
+   sk add hosihikari-hosting-levilamina     # LeviLamina
+   # or: sk add hosihikari-hosting-endstone
+   # or: sk add hosihikari-hosting-selfhosted
+   sk add hosihikari-csharp
    ```
 
 5. Restart the server. The log shows the plugin loading and enabling.
 
-For the self-hosted Linux carrier, install the suffix-less shim package and start the server through
-`hosihikari-server`; loaders and plugins still live under `plugins/`.
+For the self-hosted carriers, `sk add hosihikari-hosting-selfhosted` selects Windows or Linux; start the server through `hosihikari-server` (`hosihikari-server.exe` on Windows). Loaders and plugins still live under `plugins/`.
 
 ## Files
 
@@ -60,7 +62,7 @@ and may use globs such as `../shared/*.cs`.
 the plugin loaded and disabled. `OnUnload` releases what the plugin owns. An exception from a hook
 is a fault and the host unloads the plugin.
 
-See the [authoring guide](https://hf.srcz.one/develop/authoring-csharp/) for the full
+See the [authoring guide](https://hoshi.srcz.one/framework/develop/authoring-csharp/) for the full
 contract.
 
 ## Licence
