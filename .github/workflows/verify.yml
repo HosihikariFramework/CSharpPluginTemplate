@@ -76,7 +76,7 @@ jobs:
       - name: McMaster fork
         uses: actions/checkout@v7
         with:
-          repository: HosihikariFramework/Hosihikari.McMaster.NETCore.Plugins
+          repository: HosihikariFramework/DotNetCorePlugins
           path: DotNetCorePlugins
 
       - uses: actions/setup-dotnet@v6
