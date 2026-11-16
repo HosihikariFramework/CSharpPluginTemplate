@@ -2,7 +2,7 @@ name: verify
 
 on:
   push:
-    branches: [main]
+    branches: [main, v2/manifest]
   pull_request:
 
 jobs:
@@ -16,11 +16,12 @@ jobs:
       - name: 检查清单与入口
         run: |
           set -euo pipefail
-          test -f manifest.json
+          test -f hosihikari.json
+          test ! -f manifest.json
           test -f main.cs
           test -f parts/helper.cs
           test -f MyCSharpPlugin.conf
-          node -e "const m=JSON.parse(require('fs').readFileSync('manifest.json','utf8')); if(m.extraInfo.loader!=='csharp') throw new Error('loader'); if(m.entry!=='main.cs') throw new Error('entry'); if(!m.dependencies?.some(d=>d.name==='hosihikari-csharp')) throw new Error('dependencies');"
+          node -e "const m=JSON.parse(require('fs').readFileSync('hosihikari.json','utf8')); if(m.kind!=='plugin') throw new Error('kind'); if(m.apiVersion!==3) throw new Error('apiVersion'); if(m.loader!=='csharp') throw new Error('loader'); if(m.entry!=='main.cs') throw new Error('entry'); if(!m.dependencies?.some(d=>d.name==='hosihikari-csharp')) throw new Error('dependencies');"
 
   compile:
     runs-on: ubuntu-latest
@@ -45,7 +46,7 @@ jobs:
             <ItemGroup>
               <Compile Include="$check/main.cs" Link="main.cs" />
               <Compile Include="$GITHUB_WORKSPACE/parts/helper.cs" Link="parts/helper.cs" />
-              <PackageReference Include="Hosihikari.Plugin.Abstractions" Version="1.0.0" />
+              <PackageReference Include="Hosihikari.Plugin.Abstractions" Version="3.0.0" />
               <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
               <PackageReference Include="System.IO.Hashing" Version="10.0.13" />
             </ItemGroup>
@@ -92,4 +93,6 @@ jobs:
           test -f template/dist/MyCSharpPlugin/main.cs
           test -f template/dist/MyCSharpPlugin/parts/helper.cs
           test -f template/dist/MyCSharpPlugin/System.IO.Hashing.dll
-          test -f template/dist/MyCSharpPlugin/manifest.json
+          test -f template/dist/MyCSharpPlugin/hosihikari.json
+          test "$(node -p "require('./template/dist/MyCSharpPlugin/manifest.json').type")" = hosihikari
+          test "$(node -p "require('./template/dist/MyCSharpPlugin/hosihikari.json').apiVersion")" = 3

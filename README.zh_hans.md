@@ -4,7 +4,7 @@
 
 ## 使用
 
-1. 把本仓放在服务端目录之外。改名：改 `manifest.json` 的 `name`，重命名
+1. 把本仓放在服务端目录之外。改名：改 `hosihikari.json` 的 `name`，重命名
    `MyCSharpPlugin.conf`，再改 `main.cs` 里的类名。包目录名必须与清单里的 `name` 一致。
 2. 用框架打包器打包。它会还原 `#:package` 并复制 include 的源码：
 
@@ -17,6 +17,8 @@
    ```
 
    打包器需要同级的 `PluginManager` 检出，或由 `HOSIHIKARI_PLUGINMANAGER` 指向一个。
+   还停在 1.x `manifest.json` 的项目会在同一条命令里迁移；`pwsh ./pack.ps1 -MigrateOnly`
+   （`bash ./pack.sh --migrate-only`）只重写元数据、不打包。
 3. 把 `dist/MyCSharpPlugin/` 复制到 `<服务端>/plugins/MyCSharpPlugin/`。
 4. 用 Seiko 安装载体 bundle 与 C# loader：
 
@@ -34,7 +36,7 @@
 
 ## 文件
 
-- `manifest.json` —— `loader: csharp`，依赖 `hosihikari` 与 `hosihikari-csharp`。
+- `hosihikari.json` —— `loader: csharp`，依赖 `hosihikari` 与 `hosihikari-csharp`；父级的 `manifest.json` 信封由打包器生成，是产物。
 - `main.cs` —— 实现 `IPlugin` 的公开无参类型，同时演示两个 file-based 指令：
   `#:package System.IO.Hashing@10.0.13` 与 `#:include parts/helper.cs`。
 - `parts/helper.cs` —— 通过 `#:include` 与 `main.cs` 一起编译。
@@ -54,7 +56,8 @@
 ## 生命周期
 
 `OnLoad` 在依赖就绪后执行；`OnEnable` 打开事件/定时器闸门，拒绝则保持已加载未启用；
-`OnUnload` 释放插件持有的东西。钩子抛出异常属于故障，宿主会卸载插件。
+`OnUnload` 释放插件持有的东西。钩子抛出异常属于故障，宿主会卸载插件。四个钩子都是
+`ValueTask` 并接收 `CancellationToken`：尊重它，等不到就尽早返回。
 
 完整契约见[作者文档](https://hoshi.srcz.one/zh/framework/develop/authoring-csharp/)。
 
