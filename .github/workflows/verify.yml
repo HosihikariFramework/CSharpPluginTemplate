@@ -47,8 +47,8 @@ jobs:
               <Compile Include="$check/main.cs" Link="main.cs" />
               <Compile Include="$GITHUB_WORKSPACE/parts/helper.cs" Link="parts/helper.cs" />
               <PackageReference Include="Hosihikari.Plugin.Abstractions" Version="3.0.0" />
-              <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
-              <PackageReference Include="System.IO.Hashing" Version="10.0.13" />
+              <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.15" />
+              <PackageReference Include="System.IO.Hashing" Version="10.0.15" />
             </ItemGroup>
           </Project>
           XML

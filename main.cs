@@ -1,4 +1,4 @@
-#:package System.IO.Hashing@10.0.13
+#:package System.IO.Hashing@10.0.15
 #:include parts/helper.cs
 
 using System;
