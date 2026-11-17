@@ -7,9 +7,11 @@ at load; the package ships source and no build output.
 
 - `main.cs` — plugin entry and hooks.
 - `parts/` — files pulled in with `#:include`.
-- `manifest.json` — package manifest (`loader: csharp`, `entry: main.cs`).
+- `hosihikari.json` — package manifest (`loader: csharp`, `entry: main.cs`); the packer
+  generates the `manifest.json` envelope, so it is never committed.
 - `MyCSharpPlugin.conf` — package defaults.
-- `pack.ps1`, `pack.sh` — invoke the core packer and write `dist/MyCSharpPlugin/`.
+- `pack.ps1`, `pack.sh` — migrate a 1.x `manifest.json` if present, then invoke the core packer
+  and write `dist/MyCSharpPlugin/`.
 
 ## Build and pack
 
@@ -27,7 +29,8 @@ The server never restores packages at load; `#:package` is resolved at pack time
 ## Invariants
 
 - The manifest `name`, package directory name, and `.conf` name stay aligned.
-- Keep the `hosihikari-csharp` dependency and `extraInfo.loader: csharp`.
+- Keep the `hosihikari-csharp` dependency and `loader: csharp`.
+- Do not commit a generated `manifest.json`; it is an output of the packer.
 - Do not commit `dist/` or generated compiler output.
 - After changing `main.cs`, verify the plugin loads and enables under a real server or the loader
   host.

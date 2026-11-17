@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "name": "MyCSharpPlugin",
+  "version": "1.0.0",
+  "entry": "main.cs",
+  "loader": "csharp",
+  "kind": "plugin",
+  "apiVersion": 3,
+  "dependencies": [
+    { "name": "hosihikari" },
+    { "name": "hosihikari-csharp" }
+  ],
+  "description": "A minimal source-compiled C# plugin.",
+  "author": "you",
+  "pack": {}
+}
