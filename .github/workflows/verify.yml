@@ -79,8 +79,9 @@ jobs:
       - name: 契约
         uses: actions/checkout@v7
         with:
+          # 核心按 ../Plugin.Abstractions 找契约源码（ADR-0059 的并列约定），目录名必须对上。
           repository: HosihikariFramework/PluginAbstractions
-          path: Hosihikari.Plugin.Abstractions
+          path: Plugin.Abstractions
           ref: ${{ github.head_ref || github.ref_name }}
 
       - name: McMaster fork
