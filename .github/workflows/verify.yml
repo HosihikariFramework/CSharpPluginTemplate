@@ -73,18 +73,22 @@ jobs:
         with:
           repository: HosihikariFramework/PluginManager
           path: PluginManager
+          # 跨仓并列检出必须钉同名分支（ADR-0059）；合并顺序固定为契约 → 核心 → 加载器。
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: 契约
         uses: actions/checkout@v7
         with:
           repository: HosihikariFramework/PluginAbstractions
           path: Hosihikari.Plugin.Abstractions
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: McMaster fork
         uses: actions/checkout@v7
         with:
           repository: HosihikariFramework/DotNetCorePlugins
           path: DotNetCorePlugins
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - uses: actions/setup-dotnet@v6
         with:

@@ -56,7 +56,7 @@ fi
 # 打包器拒绝输出目录与源目录相交；先复制到临时目录，排除仓库元数据与旧产物。
 stage=$(mktemp -d)
 trap 'rm -rf "$stage"' EXIT
-(cd "$here" && tar -cf - --exclude=.git --exclude=dist --exclude=bin --exclude=obj .) |
+(cd "$here" && tar --anchored -cf - --exclude='./.git' --exclude='./dist' --exclude='./bin' --exclude='./obj' .) |
     (cd "$stage" && tar -xf -)
 
 dotnet run --project "$tool" -c Release -- pack-plugin "$stage" "$here/hosihikari.json" "$here/dist"
