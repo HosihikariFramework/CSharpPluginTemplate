@@ -53,7 +53,8 @@ if ($MigrateOnly) {
 }
 
 # 打包器拒绝输出目录与源目录相交；先复制到临时目录，排除仓库元数据与旧产物。
-$stage = Join-Path $env:TEMP ("hosihikari-template-" + [guid]::NewGuid().ToString('N'))
+# TEMP 是 Windows 的形状；Linux / macOS 上按平台解析临时目录。
+$stage = Join-Path ([System.IO.Path]::GetTempPath()) ("hosihikari-template-" + [guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Force $stage | Out-Null
 try {
     Get-ChildItem -Force $here |
@@ -61,6 +62,8 @@ try {
         Copy-Item -Destination $stage -Recurse -Force
 
     dotnet run --project $tool -c Release -- pack-plugin $stage (Join-Path $here 'hosihikari.json') (Join-Path $here 'dist')
+    # 原生命令非零退出不会自己抛：PowerShell 默认不把 $LASTEXITCODE 当错误。
+    if ($LASTEXITCODE -ne 0) { throw 'the packer failed' }
 } finally {
     if (Test-Path $stage) {
         Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
