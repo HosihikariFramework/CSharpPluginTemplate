@@ -56,7 +56,11 @@ fi
 # 打包器拒绝输出目录与源目录相交；先复制到临时目录，排除仓库元数据与旧产物。
 stage=$(mktemp -d)
 trap 'rm -rf "$stage"' EXIT
-(cd "$here" && tar --anchored -cf - --exclude='./.git' --exclude='./dist' --exclude='./bin' --exclude='./obj' .) |
-    (cd "$stage" && tar -xf -)
+# 只从暂存根挑条目：BSD tar 没有 --anchored，而裸 --exclude=bin 会把 node_modules 里的同名目录也裁掉。
+(cd "$here" && for entry in * .[!.]*; do
+    [ -e "$entry" ] || continue
+    case "$entry" in .git|dist|bin|obj) continue;; esac
+    printf '%s\n' "$entry"
+done | tar -cf - -T -) | (cd "$stage" && tar -xf -)
 
 dotnet run --project "$tool" -c Release -- pack-plugin "$stage" "$here/hosihikari.json" "$here/dist"
