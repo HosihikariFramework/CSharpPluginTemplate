@@ -2,7 +2,7 @@ name: verify
 
 on:
   push:
-    branches: [main, v2/manifest]
+    branches: [main, v2]
   pull_request:
 
 jobs:
@@ -27,6 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      # 契约按同名分支并列检出：模板验的是对当前契约的编译，不是已发布包（ADR-0059）。
+      - uses: actions/checkout@v7
+        with:
+          repository: HosihikariFramework/PluginAbstractions
+          path: Hosihikari.Plugin.Abstractions
+          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
@@ -46,7 +52,7 @@ jobs:
             <ItemGroup>
               <Compile Include="$check/main.cs" Link="main.cs" />
               <Compile Include="$GITHUB_WORKSPACE/parts/helper.cs" Link="parts/helper.cs" />
-              <PackageReference Include="Hosihikari.Plugin.Abstractions" Version="3.0.0" />
+              <ProjectReference Include="$GITHUB_WORKSPACE/Hosihikari.Plugin.Abstractions/src/Hosihikari.Plugin.Abstractions.csproj" />
               <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.15" />
               <PackageReference Include="System.IO.Hashing" Version="10.0.15" />
             </ItemGroup>
