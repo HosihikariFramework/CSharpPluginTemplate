@@ -32,7 +32,7 @@ jobs:
         with:
           repository: HosihikariFramework/PluginAbstractions
           path: Hosihikari.Plugin.Abstractions
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.head_ref == 'v2' && 'v2' || github.base_ref || github.ref_name }}
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
@@ -73,8 +73,8 @@ jobs:
         with:
           repository: HosihikariFramework/PluginManager
           path: PluginManager
-          # 跨仓并列检出必须钉同名分支（ADR-0059）；合并顺序固定为契约 → 核心 → 加载器。
-          ref: ${{ github.head_ref || github.ref_name }}
+          # 跨仓并列检出：v2 期钉同名分支，其余跟 PR 目标分支（ADR-0059）；合并顺序固定为契约 → 核心 → 加载器。
+          ref: ${{ github.head_ref == 'v2' && 'v2' || github.base_ref || github.ref_name }}
 
       - name: 契约
         uses: actions/checkout@v7
@@ -82,14 +82,14 @@ jobs:
           # 核心按 ../Plugin.Abstractions 找契约源码（ADR-0059 的并列约定），目录名必须对上。
           repository: HosihikariFramework/PluginAbstractions
           path: Plugin.Abstractions
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.head_ref == 'v2' && 'v2' || github.base_ref || github.ref_name }}
 
       - name: McMaster fork
         uses: actions/checkout@v7
         with:
           repository: HosihikariFramework/DotNetCorePlugins
           path: DotNetCorePlugins
-          ref: ${{ github.head_ref || github.ref_name }}
+          ref: ${{ github.head_ref == 'v2' && 'v2' || github.base_ref || github.ref_name }}
 
       - uses: actions/setup-dotnet@v6
         with:
