@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      # 契约按同名分支并列检出：模板验的是对当前契约的编译，不是已发布包（ADR-0059）。
+      # 契约按同名分支并列检出：模板验的是对当前契约的编译，不是已发布包（FX-0059）。
       - uses: actions/checkout@v7
         with:
           repository: HosihikariFramework/PluginAbstractions
@@ -79,7 +79,7 @@ jobs:
       - name: 契约
         uses: actions/checkout@v7
         with:
-          # 核心按 ../Plugin.Abstractions 找契约源码（ADR-0059 的并列约定），目录名必须对上。
+          # 核心按 ../Plugin.Abstractions 找契约源码（FX-0059 的并列约定），目录名必须对上。
           repository: HosihikariFramework/PluginAbstractions
           path: Plugin.Abstractions
           ref: ${{ github.base_ref || github.ref_name }}

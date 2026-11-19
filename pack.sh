@@ -35,7 +35,7 @@ printf "$packer_message
     exit 1
 fi
 
-# 旧项目在源码根上还留着 manifest.json；migrate 就地把它换成 hosihikari.json（ADR-0058）。
+# 旧项目在源码根上还留着 manifest.json；migrate 就地把它换成 hosihikari.json（FX-0058）。
 # 用源码根而不是暂存副本，迁移结果要留在作者的项目里。
 if [ -f "$here/manifest.json" ]; then
     if [ -f "$here/hosihikari.json" ]; then
